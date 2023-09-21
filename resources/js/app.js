@@ -1,6 +1,6 @@
 import './bootstrap';
 import { createApp } from 'vue'
-import HelloWorld from '../components/HelloWorld.vue'
+import List from '../components/List.vue'
 
 window.app = createApp({
     setup() {
@@ -9,6 +9,6 @@ window.app = createApp({
         };
     },
     components: {
-        HelloWorld
+        List
     },
 }).mount('#app');
