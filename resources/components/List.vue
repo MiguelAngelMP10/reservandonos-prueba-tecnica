@@ -1,7 +1,14 @@
 <template>
+
   <div class="grid grid-cols-3 md:grid-cols-3 gap-3 my-5">
     <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700"
          v-for="item in info">
+
+      <div class="flex justify-end m-4">
+        <button class="rounded-full bg-gray-100 p-3"><i class="fa-regular fa-heart fa-2xl	"></i></button>
+      </div>
+
+
       <a href="#">
         <img class="rounded-t-lg w-full" :src=item.image_url alt=""/>
       </a>
@@ -32,7 +39,11 @@
         <div class="text-center px-4">
           <i class="fa-solid fa-location-dot"></i> <span class="text-xs">{{ item.location }}</span>
         </div>
+
+
       </div>
+
+
 
     </div>
   </div>

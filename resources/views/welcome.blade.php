@@ -16,9 +16,9 @@
     @vite('resources/js/app.js')
     <!-- Styles -->
     @vite('resources/css/app.css')
+
 </head>
 <body class="antialiased">
-
 
 <div class="container mx-auto">
 

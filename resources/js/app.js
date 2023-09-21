@@ -2,6 +2,7 @@ import './bootstrap';
 import { createApp } from 'vue'
 import List from '../components/List.vue'
 
+
 window.app = createApp({
     setup() {
         return {

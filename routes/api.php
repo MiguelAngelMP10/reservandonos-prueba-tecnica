@@ -29,5 +29,5 @@ Route::get('getPlaceById/{id}', function (int $id) {
 
     $response = \Illuminate\Support\Facades\Http::get("https://dev.reservandonos.com/api/places/getPlaceById/$id");
 
-return $response;
+    return $response;
 });
