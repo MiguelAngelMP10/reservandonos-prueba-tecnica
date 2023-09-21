@@ -5,7 +5,8 @@
          v-for="item in info">
 
       <div class="flex justify-end m-4">
-        <button class="rounded-full bg-gray-100 p-3"><i class="fa-regular fa-heart fa-2xl	"></i></button>
+        <button class="rounded-full bg-gray-100 p-3" @click="addLike(item.id)"><i
+            class="fa-regular fa-heart fa-2xl	"></i></button>
       </div>
 
 
@@ -42,7 +43,6 @@
 
 
       </div>
-
 
 
     </div>
@@ -122,6 +122,23 @@ export default {
             this.info = response.data.data
             this.showMore = response.data.showMore
           })
+          .catch((error) => {
+            console.log(error)
+          })
+    },
+
+    addLike(id) {
+      axios.post('api/likes', {
+        'id': id
+      }).then(response => {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: response.data.message,
+          showConfirmButton: false,
+          timer: 500
+        })
+      })
           .catch((error) => {
             console.log(error)
           })

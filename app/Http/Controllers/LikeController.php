@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreLikeRequest;
 use App\Http\Requests\UpdateLikeRequest;
 use App\Models\Like;
+use Illuminate\Http\JsonResponse;
 
 class LikeController extends Controller
 {
@@ -27,9 +28,19 @@ class LikeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreLikeRequest $request)
+    public function store(StoreLikeRequest $request): JsonResponse
     {
-        //
+        $like = Like::where('id_place', $request->get('id'))->first();
+
+        if (is_null($like)) {
+            $like = new Like();
+            $like->id_place = $request->get('id');
+            $like->num_like = 1;
+        } else {
+            $like->num_like = $like->num_like + 1;
+        }
+        $like->save();
+        return response()->json(['message' => 'like was added.']);
     }
 
     /**
