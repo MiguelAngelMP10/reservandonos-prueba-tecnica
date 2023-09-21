@@ -24,3 +24,10 @@ Route::get('/getPlacesByFilter', function (Request $request) {
     $response = \Illuminate\Support\Facades\Http::get("https://dev.reservandonos.com/api/places/getPlacesByFilter?mode=$mode&page=$page");
     return $response;
 });
+
+Route::get('getPlaceById/{id}', function (int $id) {
+
+    $response = \Illuminate\Support\Facades\Http::get("https://dev.reservandonos.com/api/places/getPlaceById/$id");
+
+return $response;
+});
