@@ -52,9 +52,65 @@
 
     <div class="w-3/4 p-4">
 
-
       <p class="font-bold text-3xl"><img class="rounded-full w-8 h-8" :src=info?.logo_img
                                          alt="image description">{{ info?.name }}</p>
+
+
+      <button type="button" @click="reservar=true;"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+        Reservar
+      </button>
+
+
+      <form class="my-10" v-if="reservar">
+
+        <div class="grid md:grid-cols-2 md:gap-6">
+          <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="nombre" id="nombre"
+                   class="block py-2.5 px-0 w-full text-sm text-blue-950 bg-transparent border-0 border-b-2 border-gray-300  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                   placeholder="" required/>
+            <label for="nombre"
+                   class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+              Nombre</label>
+          </div>
+          <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="floating_last_name" id="floating_last_name"
+                   class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                   placeholder=" " required/>
+            <label for="floating_last_name"
+                   class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+              Apellidos</label>
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 md:gap-6">
+
+          <div class="relative z-0 w-full mb-6 group">
+            <label for="fecha"
+                   class="">
+              Fecha</label><br>
+            <input type="date" name="floating_last_name" id="floating_last_name"
+                   class=" "
+                   placeholder=" " required/>
+
+
+          </div>
+
+
+          <div class="relative z-0 w-full mb-6 group">
+            <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 ">Hora</label>
+            <select id="countries"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+              <option v-for="item in info?.reservations[0].data.hours">{{item}}</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit"
+                class="mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          Submit
+        </button>
+      </form>
+
 
       <h2 class="text-xl font-bold my-3">Descripción</h2>
 
@@ -130,15 +186,12 @@
   <div class="grid grid-cols-5 gap-4">
     <div v-for="item in info?.closer_places">
       <img class="max-h-50 max-w-50 rounded-lg" :src=item.img_url alt="">
-      <p class="font-bold ">{{item.name}}</p>
-      <p class="font-light"><i class="fa fa-map-marker-alt" aria-hidden="true"></i> {{item.address}}</p>
+      <p class="font-bold ">{{ item.name }}</p>
+      <p class="font-light"><i class="fa fa-map-marker-alt" aria-hidden="true"></i> {{ item.address }}</p>
     </div>
 
 
-
   </div>
-
-
 
 
 </template>
@@ -169,6 +222,7 @@ export default {
   },
   data: () => ({
     info: null,
+    reservar: false,
     imageMap: 'http://127.0.0.1:8000/map.jpeg'
   }),
   name: 'detalle',
