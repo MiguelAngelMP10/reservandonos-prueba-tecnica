@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReservationsRequest;
 use App\Http\Requests\UpdateReservationsRequest;
+use App\Models\Customer;
 use App\Models\Reservations;
 
 class ReservationsController extends Controller
@@ -29,7 +30,44 @@ class ReservationsController extends Controller
      */
     public function store(StoreReservationsRequest $request)
     {
-        //
+        $customer = Customer::where('name', strtoupper($request->get('name')))->where('last_names', strtoupper($request->get('last_names')))->first();
+
+        if (is_null($customer)) {
+            $customer = new Customer();
+            $customer->name = strtoupper($request->get('name'));
+            $customer->last_names = strtoupper($request->get('last_names'));
+
+            $customer->save();
+
+            $reservation = new Reservations();
+            $reservation->customer_id = $customer->id;
+            $reservation->id_place = $request->get('id_place');
+            $reservation->fecha = $request->get('fecha');
+            $reservation->hora = $request->get('hora');
+            $reservation->save();
+
+        } else {
+
+            $reservation = Reservations::where('customer_id', $customer->id)
+                ->where('id_place', $request->get('id_place'))
+                ->where('fecha', $request->get('fecha'))
+                ->where('hora', $request->get('hora'))->count();
+
+
+            if ($reservation > 0) {
+                return response()->json(['status' => false, 'message' => 'You already have a reservation with these parameters']);
+            }
+
+            $reservation = new Reservations();
+            $reservation->customer_id = $customer->id;
+            $reservation->id_place = $request->get('id_place');
+            $reservation->fecha = $request->get('fecha');
+            $reservation->hora = $request->get('hora');
+            $reservation->save();
+        }
+
+        return response()->json(['status' => true, 'message' => 'Reservation added.']);
+
     }
 
     /**

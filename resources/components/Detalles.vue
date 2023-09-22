@@ -55,18 +55,18 @@
       <p class="font-bold text-3xl"><img class="rounded-full w-8 h-8" :src=info?.logo_img
                                          alt="image description">{{ info?.name }}</p>
 
-
       <button type="button" @click="reservar=true;"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
         Reservar
       </button>
 
 
-      <form class="my-10" v-if="reservar">
+      <form class="my-10" v-if="reservar" @submit.prevent=false>
+
 
         <div class="grid md:grid-cols-2 md:gap-6">
           <div class="relative z-0 w-full mb-6 group">
-            <input type="text" name="nombre" id="nombre"
+            <input type="text" name="nombre" id="nombre" v-model="dataReserva.name"
                    class="block py-2.5 px-0 w-full text-sm text-blue-950 bg-transparent border-0 border-b-2 border-gray-300  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                    placeholder="" required/>
             <label for="nombre"
@@ -74,7 +74,7 @@
               Nombre</label>
           </div>
           <div class="relative z-0 w-full mb-6 group">
-            <input type="text" name="floating_last_name" id="floating_last_name"
+            <input type="text" name="floating_last_name" id="floating_last_name" v-model="dataReserva.last_names"
                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                    placeholder=" " required/>
             <label for="floating_last_name"
@@ -88,7 +88,7 @@
             <label for="fecha"
                    class="">
               Fecha</label><br>
-            <input type="date" name="floating_last_name" id="floating_last_name"
+            <input type="date" name="floating_last_name" id="floating_last_name" v-model="dataReserva.fecha"
                    class=" "
                    placeholder=" " required/>
 
@@ -98,14 +98,14 @@
 
           <div class="relative z-0 w-full mb-6 group">
             <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 ">Hora</label>
-            <select id="countries"
+            <select id="countries" v-model="dataReserva.hora"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-              <option v-for="item in info?.reservations[0].data.hours">{{item}}</option>
+              <option v-for="item in info?.reservations[0].data.hours">{{ item }}</option>
             </select>
           </div>
         </div>
 
-        <button type="submit"
+        <button type="submit" @click="store()"
                 class="mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
           Submit
         </button>
@@ -220,9 +220,54 @@ export default {
       modules: [Pagination],
     };
   },
+  methods: {
+    store() {
+      this.dataReserva.id_place = this.getId()
+      axios.post('/api/reservations', this.dataReserva)
+          .then(response => {
+                let {status, message} = response.data
+                let icon = status ? 'success' : 'error';
+
+                Swal.fire({
+                  position: 'top-end',
+                  icon: icon,
+                  title: message,
+                  showConfirmButton: false,
+                  timer: 1000
+                });
+
+                if (status) {
+                  this.dataReserva = {
+                    id_place: '',
+                    name: '',
+                    last_names: '',
+                    fecha: '',
+                    hora: ''
+                  }
+                }
+
+              }
+          )
+          .catch((error) => {
+            console.log(error)
+          })
+    },
+
+    getId() {
+      return this.$route.params.id;
+    }
+  },
+
   data: () => ({
     info: null,
     reservar: false,
+    dataReserva: {
+      id_place: '',
+      name: '',
+      last_names: '',
+      fecha: '',
+      hora: ''
+    },
     imageMap: 'http://127.0.0.1:8000/map.jpeg'
   }),
   name: 'detalle',
