@@ -9,15 +9,15 @@
             class="fa-regular fa-heart fa-2xl	"></i></button>
       </div>
 
-
-      <a href="#">
+      <router-link :to="'/detalle/' + item.id">
         <img class="rounded-t-lg w-full" :src=item.image_url alt=""/>
-      </a>
+      </router-link>
+
       <div class="p-5">
-        <a href="#">
+        <router-link :to="'/detalle/' + item.id">
           <img class="rounded-full w-8 h-8" :src=item.logo_url alt="image description">
           <h6 class="mb-2 font-bold tracking-tight text-gray-900 dark:text-blue-950">{{ item.name }}</h6>
-        </a>
+        </router-link>
       </div>
       <div class="flex items-stretch  mt-5">
         <div class="text-center px-4">
@@ -74,7 +74,6 @@
       </svg>
     </button>
   </div>
-
 
 </template>
 

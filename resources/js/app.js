@@ -1,6 +1,12 @@
 import './bootstrap';
-import { createApp } from 'vue'
-import List from '../components/List.vue'
+
+import {createApp} from 'vue'
+import router from './router/index.js' // <---
+
+
+import List from '../components/List.vue';
+import Detalles from "../components/Detalles.vue";
+import App from "../components/App.vue";
 
 
 window.app = createApp({
@@ -10,6 +16,8 @@ window.app = createApp({
         };
     },
     components: {
-        List
+        List,
+        Detalles,
+        App
     },
-}).mount('#app');
+}).use(router).mount('#app');
