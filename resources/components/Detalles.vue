@@ -1,5 +1,4 @@
 <template>
-  {{ info }}
   <nav class="flex" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1 md:space-x-3">
       <li class="inline-flex items-center">
@@ -35,6 +34,21 @@
       <p class="font-bold text-3xl"><img class="rounded-full w-8 h-8" :src=info?.logo_img
                                          alt="image description">{{ info?.name }}</p>
 
+      <h2 class="text-xl font-bold my-3">Descripción</h2>
+
+      <div v-html=info?.schema.description class="font-light"></div>
+
+      <h2 class="text-xl font-bold my-3 ">Galería</h2>
+
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div v-for="item in info?.gallery">
+          <img class="rounded-lg h-auto max-w-xs transition-all duration-300 blur-sm hover:blur-none"
+              :src="item.file" alt="">
+        </div>
+
+      </div>
+
 
     </div>
     <div class="w-1/4 p-4">
@@ -54,7 +68,7 @@
         Horarios
       </h4>
       <ul id="example-1">
-        <li v-for="item in info.schedules">
+        <li v-for="item in info?.schedules">
           {{ item.weekday }} <span class="font-bold">{{ item.start }} - {{ item.end }}</span>
         </li>
       </ul>
@@ -65,7 +79,7 @@
       </h4>
 
       <ul id="example-2">
-        <li v-for="item in info.amenities">
+        <li v-for="item in info?.amenities">
           {{ item.name }}
         </li>
       </ul>
@@ -76,7 +90,7 @@
       </h4>
 
       <ul id="example-3">
-        <li v-for="item in info.categories">
+        <li v-for="item in info?.categories">
           {{ item.name }}
         </li>
       </ul>
