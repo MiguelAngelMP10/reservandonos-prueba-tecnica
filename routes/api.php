@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('/likes', [LikeController::class, 'store']);
 Route::post('/reservations', [ReservationsController::class, 'store']);
+Route::get('/reservations', [ReservationsController::class, 'index']);
 
 Route::get('/getPlacesByFilter', function (Request $request) {
     $mode = $request->get('mode');

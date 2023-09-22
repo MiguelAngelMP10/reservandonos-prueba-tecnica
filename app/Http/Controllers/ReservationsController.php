@@ -6,15 +6,17 @@ use App\Http\Requests\StoreReservationsRequest;
 use App\Http\Requests\UpdateReservationsRequest;
 use App\Models\Customer;
 use App\Models\Reservations;
+use Illuminate\Database\Eloquent\Collection;
 
 class ReservationsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Collection
     {
-        //
+        $reservations = Reservations::with('customer')->get();
+        return $reservations;
     }
 
     /**
@@ -30,12 +32,12 @@ class ReservationsController extends Controller
      */
     public function store(StoreReservationsRequest $request)
     {
-        $customer = Customer::where('name', strtoupper($request->get('name')))->where('last_names', strtoupper($request->get('last_names')))->first();
+        $customer = Customer::where('name', strtolower($request->get('name')))->where('last_names', strtolower($request->get('last_names')))->first();
 
         if (is_null($customer)) {
             $customer = new Customer();
-            $customer->name = strtoupper($request->get('name'));
-            $customer->last_names = strtoupper($request->get('last_names'));
+            $customer->name = strtolower($request->get('name'));
+            $customer->last_names = strtolower($request->get('last_names'));
 
             $customer->save();
 
