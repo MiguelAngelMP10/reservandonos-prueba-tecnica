@@ -1,66 +1,110 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# reservandonos prueba tecnica
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Instalación y configuración en local
 
-## About Laravel
+Pasos para iniciar el proyecto de forma local
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Clonar el repositorio
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```bash
+    git clonehttps://github.com/MiguelAngelMP10/reservandonos-prueba-tecnica
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Moverse a la carpeta del proyecto
 
-## Learning Laravel
+```bash
+   cd reservandonos-prueba-tecnica
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Instalación de dependecias de php y nodejs
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+composer install
+```
+```bash
+npm i
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Configuraciones
 
-## Laravel Sponsors
+Realizar copia del archivo .env.example
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```text
+    cp .env.example .env
+```
 
-### Premium Partners
+Generar key de aplicación
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```bash
+  php artisan key:generate
+```
 
-## Contributing
+## Configuración de bases de datos ya sea con _SQLite o MySql_
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### SQLite
 
-## Code of Conduct
+#### Crear archivo .sqlite
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+touch database/database.sqlite
 
-## Security Vulnerabilities
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Configurar en archivo .env los siguientes valores
 
-## License
+```env
+    DB_CONNECTION=sqlite
+    DB_DATABASE=/absolute/path/to/database.sqlite
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### MySql
+
+#### Crear base de datos en el motor de bases de datos
+
+#### Configurar en archivo .env los siguientes valores
+
+```env
+    DB_CONNECTION=mysql
+    DB_HOST=
+    DB_PORT=
+    DB_DATABASE=
+    DB_USERNAME=
+    DB_PASSWORD=
+```
+
+## Se ejecutan las migraciones para construir las tablas necesarias
+
+```bash
+php artisan migrate
+```
+
+
+## Arrancamos el proyecto con con artisan 
+
+```bash
+    php artisan serve
+```
+```bash
+npm run dev
+```
+
+## Pasos para validar prueba
+
+veremos la lista de lugares con mas reservaciones 
+
+![img.png](img.png)
+al dar clic en list se muestra un listado de los lugares dado el enport con el paginado
+![img_1.png](img_1.png)
+Para cambiara de pagina basta en dar clic en siguiente
+![img_2.png](img_2.png)
+
+Cuando se da click en el corazon se deja un like y se notifica 
+![img_3.png](img_3.png)
+Al entrar al detalle de algun lugara se myesra informacion general de un lugar
+![img_4.png](img_4.png)
+Al dar clic en Reser4vara se muestra un formulario para reservar
+![img_5.png](img_5.png)
+
+Al dara clic en submit se guarda información
+![img_6.png](img_6.png)
+![img_7.png](img_7.png)
