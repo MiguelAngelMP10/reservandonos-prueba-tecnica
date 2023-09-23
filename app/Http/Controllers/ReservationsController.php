@@ -7,15 +7,35 @@ use App\Http\Requests\UpdateReservationsRequest;
 use App\Models\Customer;
 use App\Models\Reservations;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ReservationsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): Collection
+    public function index(): \Illuminate\Support\Collection
     {
-        $reservations = Reservations::with('customer')->get();
+        $reservations = Reservations::groupBy('id_place')
+            ->select(['id_place',
+                DB::raw('COUNT(*) as num_reservations'),
+                DB::raw("(select num_like from  likes where likes.id_place = reservations.id_place) as num_likes"),
+                DB::raw("(SELECT concat(name, ' ', last_names)
+                                FROM customers
+                                where id = (SELECT customer_id
+                                            FROM reservations as r
+                                            WHERE r.id_place = reservations.id_place
+                                            group by customer_id
+                                            order by count(customer_id) DESC
+                                            LIMIT 1)) as cliente_preferido")
+            ])
+            ->limit(50)
+            ->get();
+
+        foreach ($reservations as $reservation) {
+            $response = \Illuminate\Support\Facades\Http::get("https://dev.reservandonos.com/api/places/getPlaceById/$reservation->id_place");
+            $reservation->data = $response->json('data');
+        }
         return $reservations;
     }
 
@@ -54,7 +74,6 @@ class ReservationsController extends Controller
                 ->where('id_place', $request->get('id_place'))
                 ->where('fecha', $request->get('fecha'))
                 ->where('hora', $request->get('hora'))->count();
-
 
             if ($reservation > 0) {
                 return response()->json(['status' => false, 'message' => 'You already have a reservation with these parameters']);
